@@ -7,7 +7,7 @@
   console.log(web3.version);
 
   const address = '0x0CeA6FCd7C5d9C2E493fF7db7f39FbfCD94d757b';
-  inbox = new web3.eth.Contract(abi, address);
+  helloworld = new web3.eth.Contract(abi, address);
 
   send = async () => {
     // event.preventDefault();
@@ -19,14 +19,14 @@
 
     document.getElementById("msg").innerHTML = "Waiting on transaction success...";
 
-    await inbox.methods.setMessage(message).send({from: accounts[0]});
+    await helloworld.methods.setMessage(message).send({from: accounts[0]});
 
     document.getElementById("msg").innerHTML = "Your message have been entered!";
 
   }
 
   read = async () => {
-    let message = await inbox.methods.message().call();
+    let message = await helloworld.methods.message().call();
     console.log(message);
     document.getElementById("current_message").innerHTML = message;
   }
