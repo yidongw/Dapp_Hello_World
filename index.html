@@ -1,0 +1,50 @@
+<script src="web3.js"></script>
+<script src="abi.json"></script>
+
+<script type="text/javascript">
+
+  web3 = new Web3(web3.currentProvider);
+  console.log(web3.version);
+
+  const address = '0x0CeA6FCd7C5d9C2E493fF7db7f39FbfCD94d757b';
+  inbox = new web3.eth.Contract(abi, address);
+
+  send = async () => {
+    // event.preventDefault();
+    const accounts = await web3.eth.getAccounts();
+    console.log(accounts);
+
+    let message = document.getElementById("message").value;
+    console.log(message);
+
+    document.getElementById("msg").innerHTML = "Waiting on transaction success...";
+
+    await inbox.methods.setMessage(message).send({from: accounts[0]});
+
+    document.getElementById("msg").innerHTML = "Your message have been entered!";
+
+  }
+
+  read = async () => {
+    let message = await inbox.methods.message().call();
+    console.log(message);
+    document.getElementById("current_message").innerHTML = message;
+  }
+  read();
+</script>
+
+
+<div>
+  <h2>Hello World</h2>
+  <div>
+    <p>
+      <span>Current message: </span>
+      <span id="current_message"></span>
+    </p>
+    <h4>Please enter your message</h4>
+    <input id="message"/>
+    <button onClick="send()">Enter</button>
+  </div>
+  <hr />
+  <p id="msg"></p>
+</div>
